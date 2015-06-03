@@ -27,20 +27,3 @@ clean:
 	rm -rf *.o *.mod.c *.mod.o *.ko *.symvers *.order *.a
 endif
 
-install:
-	@mkdir -p $(FW_DIR)
-	@cp -f *_fw.bin $(FW_DIR)/.
-	@cp -f btusb.ko $(DRV_DIR)/btusb.ko
-ifeq ($(COMPRESS_GZIP), y)
-	@gzip -f $(DRV_DIR)/btusb.ko
-endif
-ifeq ($(COMPRESS_XZ), y)
-	@xz -f $(DRV_DIR)/btusb.ko
-endif
-	depmod -a $(MDL_DIR)
-	@echo "installed revised btusb"
-
-uninstall:
-	rm -f $(DRV_DIR)/btusb.ko*
-	depmod -a $(MDL_DIR)
-	echo "uninstalled revised btusb"
